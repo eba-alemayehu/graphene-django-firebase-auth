@@ -6,17 +6,17 @@ README = open(os.path.join(os.path.dirname(__file__), 'README.md')).read()
 VERSION = '0.0.22'
 
 setup(
-    name='graphene_django_firebase_auth',
+    name='django_graphene_firebase_auth',
     version=VERSION,
-    author='Daniel Spajic',
-    author_email='daniel@danieljs.tech',
+    author='Eba Alemayehu',
+    author_email='ebaalemayhu3@gmail.com',
     description=(
         "Authentication provider for graphene-django and Google Firebase's "
         "Authentication service."
     ),
     license='MIT',
     keywords='graphene django firebase auth',
-    url='https://github.com/dspacejs/graphene-django-firebase-auth',
+    url='https://github.com/eba-alemayehu/graphene-django-firebase-auth',
     packages=['firebase_auth'],
     install_requires=['django', 'firebase-admin'],
     long_description=README,
