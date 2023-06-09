@@ -43,7 +43,7 @@ AUTHENTICATION_BACKENDS = ['firebase_auth.authentication.FirebaseAuthentication'
 
 ```python
 INSTALLED_APPS = [
-    'firebase_auth',
+'firebase_auth',
 ]
 ```
 
