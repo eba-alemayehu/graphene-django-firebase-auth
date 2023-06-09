@@ -3,10 +3,11 @@ from setuptools import setup
 
 
 README = open(os.path.join(os.path.dirname(__file__), 'README.md')).read()
+VERSION = '0.0.21'
 
 setup(
     name='graphene_django_firebase_auth',
-    version='1.0.0',
+    version=VERSION,
     author='Daniel Spajic',
     author_email='daniel@danieljs.tech',
     description=(

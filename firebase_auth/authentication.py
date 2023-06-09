@@ -1,9 +1,10 @@
+import importlib
 from django.contrib.auth import get_user_model
+from django.conf import settings
 from firebase_admin import auth
 
 from firebase_auth.apps import firebase_app
 from firebase_auth.forms import UserRegistrationForm
-
 
 User = get_user_model()
 
@@ -11,14 +12,22 @@ User = get_user_model()
 class FirebaseAuthentication:
 
     def _get_auth_token(self, request):
-        encoded_token = request.META.get('HTTP_AUTHORIZATION')
+        authorization = request.META.get('HTTP_AUTHORIZATION')
+        if authorization:
+            encoded_token = authorization.replace('jwt ', '')
+        else:
+            return None
         decoded_token = None
 
         try:
-            decoded_token = auth.verify_id_token(encoded_token, firebase_app, True)
+            decoded_token = auth.verify_id_token(encoded_token, firebase_app, False)
         except ValueError:
             pass
-        except auth.AuthError:
+        except auth.InvalidIdTokenError:
+            pass
+        except auth.ExpiredIdTokenError:
+            pass
+        except auth.RevokedIdTokenError:
             pass
         return decoded_token
 
@@ -39,11 +48,23 @@ class FirebaseAuthentication:
 
         try:
             user = User.objects.get(firebase_uid=firebase_uid)
+            if decoded_token.get('email'):
+                user.email = decoded_token.get('email')
+                user.save()
+
         except User.DoesNotExist:
-            user = self._register_unregistered_user(firebase_uid)
+            # user = self._register_unregistered_user(firebase_uid)
+            if hasattr(settings, 'REGISTER_FIREBASE_USER'):
+                module = settings.REGISTER_FIREBASE_USER.split(".")
+
+                m = importlib.import_module(".".join(module[0: -1]))
+                register_user = getattr(m, module[-1])
+                user = register_user(firebase_uid, decoded_token)
+            else:
+                raise Exception("REGISTER_FIREBASE_USER setting is required.")
         return user
 
-    def authenticate(self, request):
+    def authenticate(self, request, **kwargs):
         user = None
         decoded_token = self._get_auth_token(request)
 
