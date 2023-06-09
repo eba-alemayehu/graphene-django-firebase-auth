@@ -60,20 +60,7 @@ class User(PermissionsMixin, FirebaseAuthMixin):
 ./manage.py migrate
 ```
 
-## Using the package
 
-Once installed, authentication will be managed using this package.
-You can access `info.context.user` to add authentication logic, such as
-with the following:
-
-```python
-def resolve_users(self, info, **kwargs):
-    success = False
-
-    if info.context.user.is_authenticated:
-        success = True
-    return success
-```
 
 ## Sending tokens on the client
 
