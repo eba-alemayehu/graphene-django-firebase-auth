@@ -49,11 +49,11 @@ class FirebaseAuthentication:
         try:
             user = User.objects.get(firebase_uid=firebase_uid)
             if hasattr(settings, 'UPDATE_FIREBASE_USER'):
-                module = settings.REGISTER_FIREBASE_USER.split(".")
+                module = settings.UPDATE_FIREBASE_USER.split(".")
 
                 m = importlib.import_module(".".join(module[0: -1]))
-                register_user = getattr(m, module[-1])
-                user = register_user(user, decoded_token)
+                update_user_attr = getattr(m, module[-1])
+                user = update_user_attr(user, decoded_token)
 
         except User.DoesNotExist:
             # user = self._register_unregistered_user(firebase_uid)
