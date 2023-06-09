@@ -51,7 +51,6 @@ INSTALLED_APPS = [
 
 ```python
 class User(PermissionsMixin, FirebaseAuthMixin):
-    pass
 ```
 
 7. Build and run your DB migrations to add the changes:
