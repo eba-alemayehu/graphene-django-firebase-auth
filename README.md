@@ -29,6 +29,7 @@ pipenv install graphene-django-firebase-auth
 3. Set `FIREBASE_KEY_FILE` in your project's settings to the path of the credentials file:
 
 ```python
+import os
 FIREBASE_KEY_FILE = os.path.join(BASE_DIR, 'path/to/firebase-credentials.json')
 ```
 
@@ -50,7 +51,7 @@ INSTALLED_APPS = [
 
 ```python
 class User(PermissionsMixin, FirebaseAuthMixin):
-# ...
+    pass
 ```
 
 7. Build and run your DB migrations to add the changes:
