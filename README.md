@@ -2,7 +2,8 @@
 
 Authentication provider for graphene-django and Firebase's Authentication service.
 
-Note this is a WIP and abandoned project since I never ended up using Firebase. But the code is still a good starting point as of writing this.
+Note this is a WIP and abandoned project since I never ended up using Firebase. But the code is still a good starting
+point as of writing this.
 
 Partially inspired by
 [django-firebase-auth](https://github.com/fcornelius/django-firebase-auth)
@@ -22,7 +23,8 @@ This code has only been tested with Python `3.7.0` and Django `2.1.2`.
 pipenv install graphene-django-firebase-auth
 ```
 
-2. Download the JSON file from your [Firebase console](https://console.firebase.google.com/) with your account's credentials.
+2. Download the JSON file from your [Firebase console](https://console.firebase.google.com/) with your account's
+   credentials.
 
 3. Set `FIREBASE_KEY_FILE` in your project's settings to the path of the credentials file:
 
@@ -40,8 +42,8 @@ AUTHENTICATION_BACKENDS = ['firebase_auth.authentication.FirebaseAuthentication'
 
 ```python
 INSTALLED_APPS = [
-  '...',
-  'firebase_auth',
+    '...',
+    'firebase_auth',
 ]
 ```
 
@@ -49,7 +51,7 @@ INSTALLED_APPS = [
 
 ```python
 class User(PermissionsMixin, FirebaseAuthMixin):
-    # ...
+# ...
 ```
 
 7. Build and run your DB migrations to add the changes:
@@ -76,7 +78,8 @@ def resolve_users(self, info, **kwargs):
 
 ## Sending tokens on the client
 
-Your client will need to send an `Authorization: Bearer` token on each request. How you do this depends on your client and is outside the scope
+Your client will need to send an `Authorization: Bearer` token on each request. How you do this depends on your client
+and is outside the scope
 of this documentation.
 
 ## Developing
@@ -89,10 +92,11 @@ of this documentation.
 pipenv install -d
 ```
 
-2. Download the JSON file from your [Firebase console](https://console.firebase.google.com/) with your account's credentials.
+2. Download the JSON file from your [Firebase console](https://console.firebase.google.com/) with your account's
+   credentials.
 
 3. Create an `.env` file using `.env.example` as a template. Make sure
-to specify the path to the file in the previous step.
+   to specify the path to the file in the previous step.
 
 4. Enter the virtual environment:
 
