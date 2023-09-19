@@ -2,7 +2,7 @@ import importlib
 from django.contrib.auth import get_user_model
 from django.conf import settings
 from firebase_admin import auth
-# import jwt
+import jwt
 from firebase_auth.apps import firebase_app
 from firebase_auth.forms import UserRegistrationForm
 
@@ -21,8 +21,8 @@ class FirebaseAuthentication:
 
         try:
             # TODO: don't forget to dealwith this
-            decoded_token = auth.verify_id_token(encoded_token, firebase_app, False)
-            # decoded_token = jwt.decode(encoded_token, verify= False)
+            # decoded_token = auth.verify_id_token(encoded_token, firebase_app, False)
+            decoded_token = jwt.decode(encoded_token, verify= False)
         except ValueError:
             pass
         except auth.InvalidIdTokenError:
@@ -45,7 +45,8 @@ class FirebaseAuthentication:
         return user
 
     def _get_user_from_token(self, decoded_token):
-        firebase_uid = decoded_token.get('uid')
+        # TODO: uid shoud be used on verify_id_token
+        firebase_uid = decoded_token.get('user_id')
         user = None
 
         try:
