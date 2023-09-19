@@ -2,7 +2,7 @@ import importlib
 from django.contrib.auth import get_user_model
 from django.conf import settings
 from firebase_admin import auth
-
+import jwt
 from firebase_auth.apps import firebase_app
 from firebase_auth.forms import UserRegistrationForm
 
@@ -20,7 +20,9 @@ class FirebaseAuthentication:
         decoded_token = None
 
         try:
-            decoded_token = auth.verify_id_token(encoded_token, firebase_app, False)
+            # TODO: don't forget to dealwith this
+            # decoded_token = auth.verify_id_token(encoded_token, firebase_app, False)
+            decoded_token = jwt.decode(t, verify= False)
         except ValueError:
             pass
         except auth.InvalidIdTokenError:
@@ -48,13 +50,6 @@ class FirebaseAuthentication:
 
         try:
             user = User.objects.get(firebase_uid=firebase_uid)
-            if hasattr(settings, 'UPDATE_FIREBASE_USER'):
-                module = settings.UPDATE_FIREBASE_USER.split(".")
-
-                m = importlib.import_module(".".join(module[0: -1]))
-                update_user_attr = getattr(m, module[-1])
-                user = update_user_attr(user, decoded_token)
-
         except User.DoesNotExist:
             # user = self._register_unregistered_user(firebase_uid)
             if hasattr(settings, 'REGISTER_FIREBASE_USER'):
