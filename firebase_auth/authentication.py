@@ -22,7 +22,7 @@ class FirebaseAuthentication:
         try:
             # TODO: don't forget to dealwith this
             # decoded_token = auth.verify_id_token(encoded_token, firebase_app, False)
-            decoded_token = jwt.decode(t, verify= False)
+            decoded_token = jwt.decode(encoded_token, verify= False)
         except ValueError:
             pass
         except auth.InvalidIdTokenError:
