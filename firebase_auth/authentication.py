@@ -31,6 +31,9 @@ class FirebaseAuthentication:
             pass
         except auth.RevokedIdTokenError:
             pass
+        except jwt.exceptions.DecodeError:
+            pass 
+            
         return decoded_token
 
     def _register_unregistered_user(self, firebase_uid):
