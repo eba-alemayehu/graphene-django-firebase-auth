@@ -50,13 +50,24 @@ class FirebaseAuthentication:
     def _get_user_from_token(self, decoded_token):
         # TODO: uid shoud be used on verify_id_token
         firebase_uid = decoded_token.get('user_id')
+        email = decoded_token.get('email')
+        phone = decoded_token.get('phone')
         user = None
 
         if firebase_uid is None or firebase_uid == '':
             return None
 
         try:
-            user = User.objects.get(firebase_uid=firebase_uid)
+            if email is not None or email != '':
+                user = User.objects.get(email=email)
+            elif phone is not None or phone != '':
+                user = User.objects.get(phone=phone)
+        except User.DoesNotExist:
+            pass
+
+        try:
+            if user is None:
+                user = User.objects.get(firebase_uid=firebase_uid)
         except User.DoesNotExist:
             # user = self._register_unregistered_user(firebase_uid)
             if hasattr(settings, 'REGISTER_FIREBASE_USER'):
