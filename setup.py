@@ -3,7 +3,7 @@ from setuptools import setup
 
 
 README = open(os.path.join(os.path.dirname(__file__), 'README.md')).read()
-VERSION = '0.0.32'
+VERSION = '0.0.33'
 
 setup(
     name='django_graphene_firebase_auth',

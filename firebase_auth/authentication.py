@@ -66,8 +66,10 @@ class FirebaseAuthentication:
             pass
 
         try:
-            if user is None:
+            if user is None and firebase_uid is not None:
                 user = User.objects.get(firebase_uid=firebase_uid)
+            else:
+                raise User.DoesNotExist
         except User.DoesNotExist:
             # user = self._register_unregistered_user(firebase_uid)
             if hasattr(settings, 'REGISTER_FIREBASE_USER'):
